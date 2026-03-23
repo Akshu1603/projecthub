@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday Mystery</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background:
+          radial-gradient(at 10% 20%, #ff9a9e 0, transparent 50%),
+          radial-gradient(at 80% 0%, #a1c4fd 0, transparent 50%),
+          radial-gradient(at 0% 50%, #fbc2eb 0, transparent 50%),
+          radial-gradient(at 80% 50%, #f6d365 0, transparent 50%);
+        background-size: 200% 200%;
+        animation: bg 12s infinite alternate;
+        color: rgb(40, 134, 28);
+        text-align: center;
+        overflow-x: hidden;
+      }
+
+      @keyframes bg {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 100% 50%;
+        }
+      }
+
+      section {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 20px;
+      }
+
+      .overlay-content {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 700px;
+        width: 90%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      input {
+        padding: 14px;
+        border-radius: 25px;
+        border: none;
+        width: 260px;
+      }
+
+      button {
+        padding: 14px 30px;
+        border-radius: 30px;
+        border: none;
+        background: linear-gradient(135deg, #ff2e63, #ff6a88);
+        color: white;
+        cursor: pointer;
+      }
+
+      #countdown {
+        font-size: 80px;
+      }
+
+      .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        justify-content: center;
+      }
+
+      .card {
+        width: 240px;
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+        transform-style: preserve-3d;
+      }
+
+      .card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.4s;
+      }
+
+      .card:hover img {
+        transform: scale(1.08);
+      }
+
+      .cake {
+        margin-top: 50px;
+      }
+
+      .candle {
+        width: 14px;
+        height: 70px;
+        background: white;
+        margin: auto;
+        position: relative;
+      }
+
+      .flame {
+        width: 24px;
+        height: 24px;
+        background: gold;
+        border-radius: 50%;
+        position: absolute;
+        top: -10px;
+        left: -5px;
+        animation: flicker 0.3s infinite alternate;
+      }
+
+      @keyframes flicker {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.1);
+        }
+      }
+
+      .balloon {
+        position: fixed;
+        bottom: -100px;
+        width: 50px;
+        height: 70px;
+        border-radius: 50%;
+        animation: floatUp 6s linear infinite;
+      }
+
+      @keyframes floatUp {
+        100% {
+          transform: translateY(-120vh);
+        }
+      }
+
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        top: -10px;
+        animation: fall 3s linear;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      .big {
+        font-size: 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ENTRY -->
+    <section id="entry">
+      <div class="overlay-content">
+        <h1>Wait! Who are you? 🤔</h1>
+        <p>Our favourite pizza?</p>
+        <input id="answer" placeholder="Type answer" />
+        <br /><br />
+        <button id="enterBtn" disabled onclick="enterSite()">Enter</button>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section id="countSection" class="hidden">
+      <div class="overlay-content">
+        <h1>Get Ready ✨</h1>
+        <div id="countdown">5</div>
+      </div>
+    </section>
+
+    <!-- MEMORY -->
+    <section id="memorySection" class="hidden">
+      <div class="overlay-content">
+        <h1>Our Memories 📸</h1>
+
+        <div class="gallery">
+          <div class="card">
+            <img src="image1.jpg" />
+          </div>
+          <div class="card">
+            <img src="image2.jpg" />
+          </div>
+          <div class="card">
+            <img src="image3.jpg" />
+          </div>
+        </div>
+
+        <button onclick="nextCake()">Next 💌</button>
+      </div>
+    </section>
+
+    <!-- LETTER -->
+    <section id="letterSection" class="hidden">
+      <div class="overlay-content">
+        <h1>💌 Open Letter</h1>
+        <p id="loveText"></p>
+        <button onclick="nextCake()">Next 🎂</button>
+      </div>
+    </section>
+
+    <!-- CAKE -->
+    <section id="cakeSection" class="hidden">
+      <div class="overlay-content">
+        <h1>Make a Wish 🎂</h1>
+
+        <div class="cake">
+          <div class="candle">
+            <div class="flame" id="flame"></div>
+          </div>
+        </div>
+
+        <button onclick="blow()">Blow Candle</button>
+      </div>
+    </section>
+
+    <!-- FINAL -->
+    <section id="finalSection" class="hidden">
+      <div class="overlay-content">
+        <div class="big">🎉 HAPPY BIRTHDAY 🎉</div>
+        <p>I love you ❤️</p>
+
+        <audio id="birthdaySong" controls loop>
+          <source src="song.mp3" type="audio/mpeg" />
+        </audio>
+      </div>
+    </section>
+
+    <script>
+      let input = document.getElementById("answer");
+      let btn = document.getElementById("enterBtn");
+      const correct = "paneer";
+
+      input.addEventListener("input", () => {
+        btn.disabled = input.value.toLowerCase().trim() !== correct;
+      });
+
+      function enterSite() {
+        hide("entry");
+        show("countSection");
+        startCountdown();
+      }
+
+      function startCountdown() {
+        let count = 5;
+        let el = document.getElementById("countdown");
+
+        let interval = setInterval(() => {
+          count--;
+          el.innerText = count;
+
+          if (count <= 0) {
+            clearInterval(interval);
+            hide("countSection");
+            show("memorySection");
+          }
+        }, 1000);
+      }
+
+      function nextCake() {
+        if (
+          !document.getElementById("letterSection").classList.contains("hidden")
+        ) {
+          hide("letterSection");
+          show("cakeSection");
+        } else {
+          hide("memorySection");
+          show("letterSection");
+          startTypingLetter();
+        }
+      }
+
+      function startTypingLetter() {
+        const msg =
+          "Dear Aadesh ❤️,\n\nYou are my happiness, my peace, and my biggest smile. You are my better half.\n\nBabbu tere bina meri life ko koi bhi meaning nahi hai tu hai toh woh life meaningful hai humesha mere sath rehna and mai bhi promise krti hu humesha tere saath dungi till my last breathe. \n\nI love you more for infinity.\n\nHappy Birthday my Babbu💖";
+        let i = 0;
+
+        function type() {
+          if (i < msg.length) {
+            document.getElementById("loveText").innerHTML +=
+              msg[i] === "\n" ? "<br>" : msg[i];
+            i++;
+            setTimeout(type, 40);
+          }
+        }
+        type();
+      }
+
+      function blow() {
+        document.getElementById("flame").style.display = "none";
+
+        // CONFETTI
+        for (let i = 0; i < 60; i++) {
+          let c = document.createElement("div");
+          c.className = "confetti";
+          c.style.left = Math.random() * 100 + "vw";
+          c.style.background = "hsl(" + Math.random() * 360 + ",100%,60%)";
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 3000);
+        }
+
+        // BALLOONS
+        for (let i = 0; i < 15; i++) {
+          let b = document.createElement("div");
+          b.className = "balloon";
+          b.style.left = Math.random() * 100 + "vw";
+          b.style.background = "hsl(" + Math.random() * 360 + ",70%,60%)";
+          document.body.appendChild(b);
+        }
+
+        setTimeout(() => {
+          hide("cakeSection");
+          show("finalSection");
+          document.getElementById("birthdaySong").play();
+        }, 2000);
+      }
+
+      function hide(id) {
+        document.getElementById(id).classList.add("hidden");
+      }
+
+      function show(id) {
+        document.getElementById(id).classList.remove("hidden");
+      }
+
+      // CARD TILT EFFECT
+      const cards = document.querySelectorAll(".card");
+      cards.forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          const rotateX = -(y - rect.height / 2) / 10;
+          const rotateY = (x - rect.width / 2) / 10;
+
+          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "rotateX(0) rotateY(0)";
+        });
+      });
+    </script>
+  </body>
+</html>
